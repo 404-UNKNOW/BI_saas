@@ -1,0 +1,62 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# 业务逻辑
+
+## 用户计划级别
+- **免费版(Free)**
+  - 有限的数据量和查询次数
+  - 基本仪表盘功能
+  - 无自动化报告
+
+- **专业版(Pro)**
+  - 更多数据存储
+  - 高级可视化
+  - 每周自动报告
+  - 自定义主题
+
+- **企业版(Enterprise)**
+  - 无限数据存储
+  - 专属支持
+  - 高级安全特性
+  - 定制功能
+
+## 核心业务流程
+
+### 1. 数据摄取
+- 用户上传CSV/Excel文件
+- 通过API自动同步数据
+- 直接SQL查询已有数据库
+
+### 2. 数据分析
+- 通过自然语言查询分析数据
+- 创建自定义仪表盘
+- 设置数据警报
+
+### 3. 结果分享
+- 生成嵌入式链接
+- 导出为PDF/Excel
+- 自动发送报告
+
+## 权限逻辑
+```javascript
+// 简化的权限检查示例
+function canAccessFeature(user, feature) {
+  const planFeatures = {
+    free: ['basic_dashboard', 'limited_queries'],
+    pro: ['basic_dashboard', 'limited_queries', 'advanced_viz', 'weekly_reports'],
+    enterprise: ['basic_dashboard', 'limited_queries', 'advanced_viz', 'weekly_reports', 'custom_features']
+  };
+  
+  return planFeatures[user.plan_level].includes(feature);
+}
+```
+
+## 计费模型
+- 免费版: 0元/月
+- 专业版: 每月固定费用
+- 企业版: 基于使用量的定制价格
+
+

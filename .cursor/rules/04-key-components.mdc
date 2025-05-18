@@ -1,0 +1,63 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# 关键组件
+
+## 前端组件
+
+### Dashboard组件
+[src/components/Dashboard.jsx](mdc:src/components/Dashboard.jsx) - 核心仪表盘组件
+```jsx
+// 主要功能:
+// 1. 加载仪表盘配置
+// 2. 执行SQL查询获取数据
+// 3. 订阅实时数据更新
+// 4. 渲染图表和数据可视化
+```
+
+### NaturalLanguageQuery组件
+[src/components/NaturalLanguageQuery.jsx](mdc:src/components/NaturalLanguageQuery.jsx) - 自然语言查询界面
+```jsx
+// 主要功能:
+// 1. 接收用户的自然语言问题
+// 2. 调用Gemini生成SQL
+// 3. 执行SQL并展示结果
+```
+
+## 后端服务
+
+### Supabase客户端
+[src/lib/supabase.js](mdc:src/lib/supabase.js) - Supabase初始化
+```javascript
+// 配置Supabase客户端
+// 启用实时功能
+// 设置认证和连接选项
+```
+
+### Gemini AI集成
+[src/lib/gemini.js](mdc:src/lib/gemini.js) - Google Gemini集成
+```javascript
+// 初始化Gemini API
+// 提供自然语言转SQL功能
+// 处理AI响应
+```
+
+## 特殊功能
+
+### 自动化报告
+[supabase/functions/weekly-report.js](mdc:supabase/functions/weekly-report.js) - AI自动化报告生成
+```javascript
+// 定时任务生成报告
+// 针对企业用户提供高级分析
+// 通过Storage存储报告
+```
+
+### 实时协作
+```jsx
+// 实时注释和协作功能
+// 使用Supabase Realtime实现
+```
+
+

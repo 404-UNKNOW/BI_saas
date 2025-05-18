@@ -1,0 +1,70 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# 数据库设计
+
+## 核心表结构
+
+### profiles - 用户表
+```sql
+CREATE TABLE profiles (
+  id UUID REFERENCES auth.users ON DELETE CASCADE,
+  email TEXT UNIQUE,
+  plan_level TEXT DEFAULT 'free' -- free/pro/enterprise
+);
+```
+
+### sales - 示例数据表
+```sql
+CREATE TABLE sales (
+  id SERIAL PRIMARY KEY,
+  product_name TEXT,
+  amount NUMERIC,
+  date DATE,
+  user_id UUID REFERENCES profiles(id) -- RLS 隔离
+);
+```
+
+### dashboards - 仪表盘配置表
+```sql
+CREATE TABLE dashboards (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT,
+  config JSONB, -- 存储图表布局、查询条件等
+  user_id UUID REFERENCES profiles(id)
+);
+```
+
+## 安全策略
+```sql
+ALTER TABLE sales ENABLE ROW LEVEL SECURITY;
+CREATE POLICY sales_owner_policy ON sales 
+  USING (user_id = auth.uid());
+```
+
+## 扩展
+```sql
+CREATE EXTENSION pg_graphql;   -- GraphQL 支持
+CREATE EXTENSION pg_net;      -- HTTP 请求（用于调用 Gemini）
+CREATE EXTENSION vector;      -- 向量搜索（可选，用于预测分析）
+```
+
+## 安全SQL执行函数
+```sql
+CREATE OR REPLACE FUNCTION execute_safe_sql(sql_text TEXT, user_id UUID)
+RETURNS JSONB AS $$
+BEGIN
+  -- 检查 SQL 是否只包含 SELECT 语句（防止注入）
+  IF sql_text ~* '^\\s*SELECT' THEN
+    EXECUTE 'SET LOCAL request.jwt.claims.user_id = ' || quote_literal(user_id);
+    RETURN (SELECT jsonb_agg(result) FROM (EXECUTE sql_text) AS result);
+  ELSE
+    RAISE EXCEPTION '只允许 SELECT 查询';
+  END IF;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+```
+
+

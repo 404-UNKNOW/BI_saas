@@ -1,0 +1,48 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# 文件结构
+
+```
+├── public/               # 静态资源
+├── src/                  # 源代码
+│   ├── lib/              # 工具库
+│   │   ├── supabase.js   # Supabase 客户端
+│   │   └── gemini.js     # Gemini AI 封装
+│   ├── components/       # React组件
+│   │   ├── Dashboard.jsx # 核心仪表盘
+│   │   └── NaturalLanguageQuery.jsx 
+│   └── pages/            # 页面组件
+│       ├── index.js      # 主界面
+│       └── embed/[id].js # 嵌入式仪表盘路由
+├── supabase/             # Supabase相关文件
+│   ├── migrations/       # 数据库迁移
+│   └── functions/        # Edge Functions
+├── seed.sql              # 测试数据
+└── .env.local            # 环境变量
+```
+
+## 关键文件说明
+
+### 核心前端文件
+- [src/pages/index.js](mdc:src/pages/index.js) - 主应用入口
+- [src/pages/embed/[id].js](mdc:src/pages/embed/[id].js) - 嵌入式仪表盘
+
+### 工具库
+- [src/lib/supabase.js](mdc:src/lib/supabase.js) - Supabase客户端配置
+- [src/lib/gemini.js](mdc:src/lib/gemini.js) - Gemini AI服务封装
+
+### 组件
+- [src/components/Dashboard.jsx](mdc:src/components/Dashboard.jsx) - 仪表盘组件
+- [src/components/NaturalLanguageQuery.jsx](mdc:src/components/NaturalLanguageQuery.jsx) - 自然语言查询组件
+
+### 数据库相关
+- [supabase/migrations/](mdc:supabase/migrations) - 数据库变更脚本
+- [seed.sql](mdc:seed.sql) - 初始测试数据
+
+### 后端服务
+- [supabase/functions/](mdc:supabase/functions) - Supabase Edge Functions
+
+

@@ -1,0 +1,344 @@
+:root {
+  --primary-color: #0070f3;
+  --secondary-color: #0070f3;
+  --background-color: #ffffff;
+  --text-color: #333333;
+  --border-color: #eaeaea;
+  --error-color: #e00;
+  --success-color: #0070f3;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* 登录页面样式 */
+.login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  text-align: center;
+}
+
+.login-container {
+  max-width: 500px;
+  width: 100%;
+}
+
+.login-container h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.login-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.login-button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-button.github {
+  background-color: #24292e;
+  color: white;
+}
+
+.login-button.google {
+  background-color: #4285f4;
+  color: white;
+}
+
+/* 应用布局样式 */
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.main-nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.main-nav button {
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: 4px;
+}
+
+.main-nav button.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logout-button {
+  background: none;
+  border: 1px solid var(--border-color);
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.app-main {
+  flex: 1;
+  padding: 2rem;
+}
+
+/* 仪表盘容器样式 */
+.dashboards-container {
+  display: flex;
+  gap: 2rem;
+  height: calc(100vh - 150px);
+}
+
+.dashboards-sidebar {
+  width: 250px;
+  border-right: 1px solid var(--border-color);
+  padding-right: 1rem;
+}
+
+.dashboards-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dashboards-list li {
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.dashboards-list li.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.empty-list {
+  color: #999;
+  font-style: italic;
+}
+
+.create-dashboard-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.dashboard-view {
+  flex: 1;
+}
+
+.empty-dashboard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #999;
+  font-style: italic;
+}
+
+/* 仪表盘样式 */
+.dashboard {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-actions button {
+  padding: 0.5rem 1rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.dashboard-content {
+  flex: 1;
+}
+
+.chart-container {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-description {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+/* 自然语言查询样式 */
+.natural-language-query {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.query-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.query-input-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.query-input {
+  flex: 1;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+.query-button {
+  padding: 0 1.5rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.query-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.error-message {
+  padding: 1rem;
+  background-color: #ffebee;
+  color: var(--error-color);
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+}
+
+.generated-sql {
+  background-color: #f5f5f5;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+}
+
+.generated-sql pre {
+  margin: 0;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.query-results {
+  margin-bottom: 1.5rem;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.query-results table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.query-results th,
+.query-results td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.query-results th {
+  background-color: #f5f5f5;
+}
+
+.data-insights {
+  background-color: #e3f2fd;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+/* 通用状态样式 */
+.loading, .error, .empty, .no-data {
+  padding: 2rem;
+  text-align: center;
+}
+
+.error {
+  color: var(--error-color);
+}
+
+.no-data {
+  color: #999;
+  font-style: italic;
+} 

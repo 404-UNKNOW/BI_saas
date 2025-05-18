@@ -1,0 +1,38 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# 系统架构
+
+## 架构图
+```mermaid
+graph TD
+    A[前端: React] -->|API 调用| B[Supabase]
+    A -->|AI 请求| C[Google Gemini]
+    B -->|数据存储| D[(PostgreSQL)]
+    B -->|实时推送| A
+    C -->|SQL 生成| B
+    B -->|文件存储| E[Supabase Storage]
+```
+
+## 数据流
+1. 用户通过前端界面提交分析请求
+2. 自然语言查询通过Gemini转换为SQL
+3. SQL在Supabase中安全执行
+4. 数据返回前端进行可视化
+5. 实时数据更新通过Supabase Realtime推送
+
+## 安全模型
+- 行级安全(RLS)确保多租户数据隔离
+- SQL注入防护机制
+- 执行函数的权限控制
+- Supabase Auth身份验证
+
+## 实现细节
+- Supabase初始化: [src/lib/supabase.js](mdc:src/lib/supabase.js)
+- Gemini集成: [src/lib/gemini.js](mdc:src/lib/gemini.js)
+- 安全SQL执行: 通过PostgreSQL存储过程实现
+- 实时更新: 使用Supabase Realtime订阅
+
+

@@ -1,0 +1,33 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# BI SaaS 项目概览
+
+这是一个基于Supabase和Google Gemini的嵌入式BI SaaS项目，用于实际商业应用。
+
+## 核心功能
+- 数据分析仪表盘
+- 自然语言查询(基于Google Gemini)
+- 实时数据同步
+- 多租户隔离
+- 嵌入式集成
+- AI自动化报告
+
+## 技术栈
+- 前端: React
+- 后端: Supabase
+- 数据库: PostgreSQL
+- AI: Google Gemini
+- 实时推送: Supabase Realtime
+- 身份验证: Supabase Auth
+
+## 重要文件
+- 前端入口: [src/pages/index.js](mdc:src/pages/index.js)
+- Supabase客户端: [src/lib/supabase.js](mdc:src/lib/supabase.js)
+- Gemini集成: [src/lib/gemini.js](mdc:src/lib/gemini.js)
+- 核心仪表盘组件: [src/components/Dashboard.jsx](mdc:src/components/Dashboard.jsx)
+- 自然语言查询: [src/components/NaturalLanguageQuery.jsx](mdc:src/components/NaturalLanguageQuery.jsx)
+
+

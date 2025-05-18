@@ -1,0 +1,71 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# 开发工作流
+
+## 环境设置
+```env
+# .env.local
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_ANON_KEY=your-anon-key
+GEMINI_API_KEY=your-google-api-key
+```
+
+## 本地开发流程
+
+### 1. 安装依赖
+```bash
+npm install
+```
+
+### 2. 启动开发服务器
+```bash
+npm run dev
+```
+
+### 3. Supabase CLI操作
+```bash
+# 初始化Supabase
+supabase init
+
+# 启动本地Supabase服务
+supabase start
+
+# 创建数据库迁移
+supabase migration new create_tables
+
+# 应用迁移
+supabase db push
+
+# 导入测试数据
+supabase db execute --file=seed.sql
+```
+
+## 部署流程
+
+### 1. 部署Supabase
+- 在Supabase控制台中创建项目
+- 应用数据库迁移
+- 配置RLS策略和存储桶
+
+### 2. 部署前端
+```bash
+# 构建生产版本
+npm run build
+
+# 部署到生产环境
+npm run deploy
+```
+
+### 3. 配置Edge Functions
+- 通过Supabase CLI部署Edge Functions
+- 设置定时触发器
+
+## 数据安全注意事项
+- 确保所有表都启用了RLS
+- 检查SQL安全执行函数的权限
+- 在生产环境中避免使用管理员密钥
+
+
