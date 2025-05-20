@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { generateSQL, generateInsights } from '../lib/gemini';
-import { executeSecureQuery } from '../lib/supabase';
+import { executeSecureQuery, supabase, getTableSchema } from '../lib/supabase';
 
 export default function NaturalLanguageQuery() {
   const [query, setQuery] = useState('');
@@ -15,33 +15,8 @@ export default function NaturalLanguageQuery() {
   useEffect(() => {
     async function fetchTableSchema() {
       try {
-        const { data: schema, error } = await executeSecureQuery(`
-          SELECT 
-            table_name, 
-            column_name, 
-            data_type
-          FROM 
-            information_schema.columns
-          WHERE 
-            table_schema = 'public'
-          ORDER BY 
-            table_name, ordinal_position
-        `);
-        
-        if (error) throw error;
-        
-        // 将数据转换为更易用的格式
-        const tables = {};
-        schema.forEach(col => {
-          if (!tables[col.table_name]) {
-            tables[col.table_name] = [];
-          }
-          tables[col.table_name].push({
-            column_name: col.column_name,
-            data_type: col.data_type
-          });
-        });
-        
+        // 使用新的getTableSchema函数
+        const tables = await getTableSchema();
         setTableSchema(tables);
       } catch (err) {
         console.error('获取表结构失败:', err);

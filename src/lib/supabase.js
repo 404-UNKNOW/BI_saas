@@ -29,6 +29,35 @@ export async function executeSecureQuery(sql) {
   return data;
 }
 
+export async function getTableSchema() {
+  const tableNames = ['sales', 'dashboards', 'comments'];
+  const tables = {};
+
+  try {
+    // 对于每个表，使用INFORMATION_SCHEMA查询获取结构
+    for (const tableName of tableNames) {
+      const { data, error } = await supabase
+        .from('information_schema.columns')
+        .select('column_name, data_type')
+        .eq('table_name', tableName)
+        .eq('table_schema', 'public');
+
+      if (error) throw error;
+
+      if (data) {
+        tables[tableName] = data.map(column => ({
+          column_name: column.column_name,
+          data_type: column.data_type
+        }));
+      }
+    }
+    return tables;
+  } catch (error) {
+    console.error('获取表结构失败:', error);
+    throw error;
+  }
+}
+
 export async function subscribeToTable(table, callback) {
   return supabase
     .channel(`${table}_changes`)

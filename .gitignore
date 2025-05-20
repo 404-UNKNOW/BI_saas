@@ -42,3 +42,4 @@ config.toml
 # OS相关
 .DS_Store
 Thumbs.db 
+.vercel

@@ -42,13 +42,16 @@ CREATE TABLE IF NOT EXISTS public.comments (
 -- 创建安全执行SQL的函数
 CREATE OR REPLACE FUNCTION public.execute_safe_sql(sql_text TEXT, user_id UUID)
 RETURNS JSONB AS $$
+DECLARE
+  result_json JSONB;
 BEGIN
   -- 检查 SQL 是否只包含 SELECT 语句（防止注入）
   IF sql_text ~* '^\\s*SELECT' THEN
     -- 设置RLS上下文
     EXECUTE 'SET LOCAL request.jwt.claims.user_id = ' || quote_literal(user_id);
-    -- 执行查询并返回结果
-    RETURN (SELECT jsonb_agg(result) FROM (EXECUTE sql_text) AS result);
+    -- 执行查询并将结果存储为JSON
+    EXECUTE 'WITH query_result AS (' || sql_text || ') SELECT jsonb_agg(to_jsonb(query_result)) FROM query_result' INTO result_json;
+    RETURN COALESCE(result_json, '[]'::jsonb);
   ELSE
     RAISE EXCEPTION '只允许 SELECT 查询';
   END IF;
@@ -95,4 +98,35 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER dashboards_updated_at
 BEFORE UPDATE ON public.dashboards
 FOR EACH ROW
-EXECUTE FUNCTION update_updated_at(); 
+EXECUTE FUNCTION update_updated_at();
+
+-- 创建获取表结构的函数
+CREATE OR REPLACE FUNCTION public.get_table_schema()
+RETURNS TABLE (
+  table_name TEXT,
+  column_name TEXT,
+  data_type TEXT
+) AS $$
+BEGIN
+  -- 只返回属于当前用户的表中的列信息
+  RETURN QUERY
+  SELECT 
+    c.relname::TEXT AS table_name,
+    a.attname::TEXT AS column_name,
+    pg_catalog.format_type(a.atttypid, a.atttypmod)::TEXT AS data_type
+  FROM 
+    pg_catalog.pg_attribute a
+  JOIN 
+    pg_catalog.pg_class c ON a.attrelid = c.oid
+  JOIN 
+    pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+  WHERE 
+    n.nspname = 'public'
+    AND a.attnum > 0 
+    AND NOT a.attisdropped
+    AND c.relkind = 'r'
+    AND (c.relname = 'sales' OR c.relname = 'dashboards' OR c.relname = 'comments')
+  ORDER BY 
+    c.relname, a.attnum;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER; 
