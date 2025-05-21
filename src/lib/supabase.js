@@ -34,16 +34,25 @@ export async function getTableSchema() {
   const tables = {};
 
   try {
-    // 对于每个表，使用INFORMATION_SCHEMA查询获取结构
+    // 使用安全的SQL查询获取表结构
+    const user = await getCurrentUser();
+    if (!user) throw new Error('需要登录才能获取表结构');
+    
     for (const tableName of tableNames) {
-      const { data, error } = await supabase
-        .from('information_schema.columns')
-        .select('column_name, data_type')
-        .eq('table_name', tableName)
-        .eq('table_schema', 'public');
-
+      const sql = `
+        SELECT column_name, data_type
+        FROM information_schema.columns 
+        WHERE table_schema = 'public' 
+        AND table_name = '${tableName}'
+      `;
+      
+      const { data, error } = await supabase.rpc('execute_safe_sql', { 
+        sql_text: sql,
+        user_id: user.id 
+      });
+      
       if (error) throw error;
-
+      
       if (data) {
         tables[tableName] = data.map(column => ({
           column_name: column.column_name,
@@ -51,6 +60,7 @@ export async function getTableSchema() {
         }));
       }
     }
+    
     return tables;
   } catch (error) {
     console.error('获取表结构失败:', error);
